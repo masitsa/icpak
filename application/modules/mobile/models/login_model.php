@@ -167,27 +167,37 @@ class Login_model extends CI_Model
 	{
 		$email = $this->input->post('email');
 		$name = $this->input->post('first_name');
-		$cc = NULL;
 		
-		$subject = 'Please activate your account';
-		$message = '<p>Welcome to Icpak Live.</p>
-		<p>Please activate your account in order to access the full functions of our mobile application. You will be able to:
-			<ol>
-				<li>Get live feeds from Icpak</li>
-				<li>Stream live events</li>
-				<li>Watch previous meetings</li>
-				<li>Post questions during seminars</li>
-			</ol>
-		</p>
-		<p>To activate your account click on the button below</p>';
+		$this->db->where('member_email', $email);
+		$query = $this->db->get('member');
 		
-		$button = '<p><a class="mcnButton " title="Activate account" href="'.site_url().'mobile/login/activate_account" target="_blank" style="font-weight: bold;letter-spacing: normal;line-height: 100%;text-align: center;text-decoration: none;color: #FFFFFF;">Activate account</a></p>';
-		$shopping = '<p>If you have any queries or concerns do not hesitate to get in touch with us at <a href="mailto:info@icpak.com">info@icpak.com</a> </p>';
-		$sender_email = 'info@icpak.com';
-		$from = 'Icpak';
-		
-		$response = $this->email_model->send_mandrill_mail($email, $name, $subject, $message, $sender_email, $shopping, $from, $button, $cc);
-		
-		return TRUE;
+		if($query->num_rows() > 0)
+		{
+			$row = $query->row();
+			$member_id = $row->member_id;
+			
+			$cc = NULL;
+			
+			$subject = 'Please activate your account';
+			$message = '<p>Welcome to ICPAK Live.</p>
+			<p>Please activate your account in order to access the full functions of our mobile application. You will be able to:
+				<ol>
+					<li>Get live feeds from Icpak</li>
+					<li>Stream live events</li>
+					<li>Watch previous meetings</li>
+					<li>Post questions during seminars</li>
+				</ol>
+			</p>
+			<p>To activate your account click on the button below</p>';
+			
+			$button = '<p><a class="mcnButton " title="Activate account" href="'.site_url().'mobile/login/activate_account/'.$member_id.'" target="_blank" style="font-weight: bold;letter-spacing: normal;line-height: 100%;text-align: center;text-decoration: none;color: #FFFFFF;">Activate account</a></p>';
+			$shopping = '<p>If you have any queries or concerns do not hesitate to get in touch with us at <a href="mailto:info@icpak.com">info@icpak.com</a> </p>';
+			$sender_email = 'info@icpak.com';
+			$from = 'ICPAK';
+			
+			$response = $this->email_model->send_mandrill_mail($email, $name, $subject, $message, $sender_email, $shopping, $from, $button, $cc);
+			
+			return TRUE;
+		}
 	}
 }

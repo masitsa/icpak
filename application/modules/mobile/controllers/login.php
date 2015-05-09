@@ -27,13 +27,10 @@ class Login extends MX_Controller {
 		
 		$this->load->model('login_model');
 		$this->load->model('email_model');
+		
+		$this->load->library('Mandrill', $this->config->item('mandrill_key'));
 	}
     
-	/*
-	*
-	*	Default action is to go to the home page
-	*
-	*/
 	public function login_member($member_email = '', $member_password = '') 
 	{
 		$result = $this->login_model->validate_member($member_email, $member_password);
@@ -43,7 +40,6 @@ class Login extends MX_Controller {
 			//create user's login session
 			$newdata = array(
                    'member_login_status'    => TRUE,
-                   'member_username'     	=> $result[0]->member_username,
                    'member_email'     		=> $result[0]->member_email,
                    'member_id'  			=> $result[0]->member_id,
                    'member_code'  			=> md5($result[0]->member_id)
@@ -92,30 +88,23 @@ class Login extends MX_Controller {
 		{
 			if($this->login_model->register_member_details())
 			{
-				if($this->login_model->validate_member($this->input->post('email'),$this->input->post('password')))
-				{	
-					$this->load->model('site/payments_model');
-					//grant 100 chat credits for the first 100 users
-					if($this->payments_model->first_hundred($this->session->userdata('member_id')))
-					{
-					}
-					
-					else
-					{
-					}
+				if($this->login_model->send_account_verification_email())
+				{
 					$response['message'] = 'success';
-					$response['result'] = 'You have successfully created your account. We need some info from you so that we can link you with people looking for you';
+					$response['result'] = 'You have successfully created your account. Please check your email so that you can activate your account';
 				}
+				
 				else
 				{
-					$data['message'] = 'fail';
-					$data['result'] = 'Please sign in to access your account';
+					$response['message'] = 'fail';
+					$response['result'] = 'Unable to send account verification email. Please contact us for details on how to activate your account';
 				}
 			}
 			
 			else
 			{
-				$this->session->set_userdata('error_message', 'Unable to create account. Please try again');
+				$response['message'] = 'fail';
+				$response['result'] = 'Unable to create account. Please try again';
 			}
 		}
 		else
@@ -126,16 +115,30 @@ class Login extends MX_Controller {
 			if(!empty($validation_errors))
 			{
 				$response['message'] = 'fail';
-				$response['result'] = 'Ensure that you have entered all the values in the form provided';
+			 	$response['result'] = $validation_errors;
 			}
 			
 			//populate form data on initial load of page
 			else
 			{
 				$response['message'] = 'fail';
-			 	$response['result'] = $validation_errors;
+				$response['result'] = 'Ensure that you have entered all the values in the form provided';
 			}
 		}
 		echo json_encode($response);
+	}
+	
+	public function activate_account($member_id)
+	{
+		$data['member_status'] = 1;
+		$this->db->where('member_id', $member_id);
+		$this->db->update('member', $data);
+		
+		redirect('mobile/login/success');
+	}
+	
+	public function success()
+	{
+		echo '<h3>Thank you for activating your account</h3><p>You can now log into our mobile application</p>';
 	}
 }
