@@ -39,22 +39,20 @@ class Email_model extends CI_Model
 	function send_mandrill_mail($user_email, $user_name, $subject, $message, $sender_email = NULL, $shopping = NULL, $from = NULL, $button = NULL, $cc = NULL)
 	{
 		if(!isset($sender_email)){
-			$sender_email = "brynhaggarty@gmail.com";
+			$sender_email = "info@icpak.com";
 		}
 		if(!isset($shopping)){
 			$shopping = "";
 		}
 		if(!isset($from)){
-			$from = "In Store Look";
-		}
-		if($cc == NULL){
-			$cc = "amasitsa@live.com";
-		}
-		if(!isset($button)){
-			$button = '<a class="mcnButton " title="Confirm Account" href="http://www.intorelook.com.au" target="_blank" style="font-weight: bold;letter-spacing: normal;line-height: 100%;text-align: center;text-decoration: none;color: #FFFFFF;">Shop Now</a>';
+			$from = "Icpak";
 		}
 		
-		$template_name = 'basic';
+		if(!isset($button)){
+			$button = '';
+		}
+		
+		$template_name = 'icpak';
 		$template_content = array(
 			array(
 				'name' => 'salutation',
@@ -120,9 +118,9 @@ class Email_model extends CI_Model
 		),
 		'tags' => array('password-resets'),
 		'subaccount' => NULL, //'customer-123',
-		'google_analytics_domains' => array('www.instorelook.com.au'),
+		'google_analytics_domains' => array('www.icpak.com'),
 		'google_analytics_campaign' => 'alvaromasitsa104@@gmail.com',
-		'metadata' => array('website' => 'www.instorelook.com.au'),
+		'metadata' => array('website' => 'www.icpak.com.'),
 		'recipient_metadata' => array(
 			array(
 				'rcpt' => $sender_email,

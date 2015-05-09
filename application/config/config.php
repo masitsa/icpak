@@ -15,7 +15,7 @@
 |
 */
 $config['base_url']	= 'http://localhost/icpak/';
-//$config['base_url']	= 'http://development.instorelook.com.au/';
+//$config['base_url']	= 'http://sithdimension.com/icpak/';
 
 /*
 |--------------------------------------------------------------------------
@@ -372,6 +372,6 @@ $config['modules_locations'] = array(
 		APPPATH.'modules/' => '../modules/',
 	);
 
-$config['mandrill_key']    = 'AQQotp1f9KOaQ0RZDDIBkg';
+$config['mandrill_key']    = 'M_Koo57e9M5Y6bLEj6wroQ';
 /* End of file config.php */
 /* Location: ./application/config/config.php */
