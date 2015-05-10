@@ -137,6 +137,16 @@ class Login extends MX_Controller {
 		redirect('mobile/login/success');
 	}
 	
+	public function get_client_profile()
+	{
+		$v_data['profile_query'] = $this->login_model->get_profile_details();
+		
+
+		$response['message'] = 'success';
+		$response['result'] = $this->load->view('member_profile', $v_data, true);
+
+		echo json_encode($response);
+	}
 	public function success()
 	{
 		echo '<h3>Thank you for activating your account</h3><p>You can now log into our mobile application</p>';

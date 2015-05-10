@@ -30,5 +30,12 @@ class News_model extends CI_Model
 		
 		return $query;
 	}
+	public function get_news_detail($id)
+	{
+
+		$this->db->where('id = '.$id);
+		$query = $this->db->get('jos_content');
+		return $query;
+	}
 
 }

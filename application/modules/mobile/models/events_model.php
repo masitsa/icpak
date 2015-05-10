@@ -15,6 +15,12 @@ class Events_model extends CI_Model
 		
 		return $query;
 	}
+	public function get_event_detail($id)
+	{
+		$this->db->where('id = '.$id);
+		$query = $this->db->get('jos_simplecal');
+		return $query;
 
+	}
 
 }

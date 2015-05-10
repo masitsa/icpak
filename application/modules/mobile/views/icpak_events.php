@@ -36,6 +36,15 @@ $result = '<div class="page_content">
 				            $day = date('j',strtotime($row->date1));
                             $month = date('M',strtotime($row->date1));
 				            $meeting_content = $row->entryInfo;
+				            if(is_int($day))
+	                         {
+	                            $day = '0$day';
+	                         }
+	                         else
+	                         {
+	                            $day = $day;
+	                         }
+
 				            // $meeting_mini_string = (strlen($meeting_content) > 15) ? substr($meeting_content,0,50).'...' : $meeting_content;
 				       		$title = strip_tags($row->entryName,'<p><a>');
                             $mini_title = (strlen($title) > 15) ? substr($title,0,50).'...' : $title;
@@ -47,7 +56,7 @@ $result = '<div class="page_content">
                                             <span class="month">'.$month.'</span>
                                         </div>
                                         <div class="post_title">
-                                        <h2><a href="blog-single.html">'.strip_tags($mini_title,'<p><a>').'</a></h2>
+                                       		<h2><a href="blog-single.html?id='.$id.'" onclick="get_events_description('.$id.')">'.strip_tags($mini_title,'<p><a>').'</a></h2>
                                         </div>
                                     </div>
                                 </li>';
