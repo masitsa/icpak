@@ -44,7 +44,36 @@ class Login_model extends CI_Model
 		
 		return $new_password;
 	}
-	
+
+	/*
+	*	Reset a user's password
+	*
+	*/
+	public function get_profile_details()
+	{
+		$this->db->where('member_id = 1');
+		$query = $this->db->get('member');
+		
+		return $query;
+	}
+	public function get_cpd_info($member_no)
+	{
+		$this->db->select('year(FromDate) AS years');
+		$this->db->where('year(FromDate) >= "2010" AND RegNo = "'.$member_no.'"');
+		$this->db->group_by('year(FromDate)');
+		$this->db->order_by('FromDate','ASC');
+		$query = $this->db->get('v_membercpd');
+		
+		return $query;
+	}
+	public function get_cpd_details($year,$member_no)
+	{
+		$this->db->select('*');
+		$this->db->where('year(FromDate) <= "'.$year.'" AND RegNo = "'.$member_no.'"');
+		$query = $this->db->get('v_membercpd');
+		
+		return $query;
+	}
 	public function register_member_details()
 	{
 		$newdata = array(

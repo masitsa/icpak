@@ -23,9 +23,10 @@ if($query->num_rows() > 0)
 			        <iframe width="100%" height="300" src="http://www.youtube.com/embed/'.$streamer_link.'" frameborder="0"></iframe>
 			        </div>
 			       <div class="contactform">
-			          <a href="#" data-popup=".popup-event-question" class="open-popup"><span>Ask a question</span></a>
+			        <input type="button" data-popup=".popup-event-question" class="open-popup form_submit" name="submit" class="form_submit" id="submit" value="Ask a question" />
+
 			       </div>
-			  </div>
+			 </div>
 		  ';
 	}
 }
@@ -34,3 +35,5 @@ else
 	$result = 'No streaming event currently';
 }
 echo $result;
+
+?>

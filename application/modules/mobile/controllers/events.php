@@ -46,6 +46,18 @@ class Events extends MX_Controller {
 		
 		echo json_encode($response);
 	}
+	public function get_event_detail($id)
+	{
+		$query = $this->events_model->get_event_detail($id);
+		
+		$v_data['query'] = $query;
+		$v_data['id'] = $id;
+		$response['message'] = 'success';
+		$response['result'] = $this->load->view('event_detail', $v_data, true);
+
+		
+		echo json_encode($response);
+	}
 	
 	
 	

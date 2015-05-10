@@ -49,6 +49,19 @@ class News extends MX_Controller {
 		echo json_encode($response);
 	}
 	
+	public function get_news_detail($id)
+	{
+		$query = $this->news_model->get_news_detail($id);
+		
+		$v_data['query'] = $query;
+		$v_data['id'] = $id;
+		$response['message'] = 'success';
+		$response['result'] = $this->load->view('news_detail', $v_data, true);
+
+		
+		echo json_encode($response);
+
+	}
 	
 	
 }
