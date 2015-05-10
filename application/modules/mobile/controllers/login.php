@@ -30,6 +30,20 @@ class Login extends MX_Controller {
 		
 		$this->load->library('Mandrill', $this->config->item('mandrill_key'));
 	}
+	
+	public function get_logged_in_member()
+	{
+		$newdata = array(
+                   'member_email'     		=> $this->session->userdata('member_email'),
+                   'member_first_name'     	=> $this->session->userdata('member_first_name'),
+                   'member_id'  			=> $this->session->userdata('member_id'),
+                   'member_code'  			=> $this->session->userdata('member_id')
+               );
+		
+		$response['result'] = $newdata;
+		
+		echo json_encode($response);
+	}
     
 	public function login_member($member_email = '', $member_password = '') 
 	{
@@ -41,6 +55,7 @@ class Login extends MX_Controller {
 			$newdata = array(
                    'member_login_status'    => TRUE,
                    'member_email'     		=> $result[0]->member_email,
+                   'member_first_name'     		=> $result[0]->member_first_name,
                    'member_id'  			=> $result[0]->member_id,
                    'member_code'  			=> md5($result[0]->member_id)
                );
