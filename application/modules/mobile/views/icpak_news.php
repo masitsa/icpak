@@ -53,6 +53,7 @@ $result = '<div class="page_content">
                                                         <span class="month">'.$month.'</span>
                                                     </div>
                                                     <div class="post_title">
+                                                    <!--<h2><a href="blog-single.html?id='.$id.'">'.strip_tags($mini_title).'</a></h2>-->
                                                     <h2><a href="blog-single.html?id='.$id.'" onclick="get_news_description('.$id.')">'.strip_tags($mini_title).'</a></h2>
                                                     </div>
                                                 </div>
