@@ -38,7 +38,7 @@ if ($query->num_rows() > 0)
 	            <div class="page_content"> 
 
 	              <div class="entry">
-	              	'.strip_tags($post_content,'<p><a>').'
+	              	'.$post_content.'
 	              </div>
 	            </div>
 	            

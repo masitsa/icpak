@@ -17,7 +17,7 @@ if ($profile_query->num_rows() > 0)
     }
     else
     {
-    	$gender = 'Mrs.';
+    	$gender = 'Mrs. ';
     }
 	$result = '<h2 class="page_title">'.$gender.' '.$member_first_name.' '.$member_last_name.'</h2> 
 	     
