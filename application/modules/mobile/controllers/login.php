@@ -37,12 +37,12 @@ class Login extends MX_Controller {
                    'member_email'     		=> $this->session->userdata('member_email'),
                    'member_first_name'     	=> $this->session->userdata('member_first_name'),
                    'member_id'  			=> $this->session->userdata('member_id'),
-                   'member_code'  			=> $this->session->userdata('member_id')
+                   'member_code'  			=> $this->session->userdata('member_code')
                );
 		
 		$response['result'] = $newdata;
 		
-		echo json_encode($response);
+		echo json_encode($newdata);
 	}
     
 	public function login_member($member_email = '', $member_password = '') 
