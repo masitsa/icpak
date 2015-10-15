@@ -31,7 +31,7 @@ class member_model extends CI_Model
 		$this->db->from($table);
 		$this->db->select('*');
 		$this->db->where($where);
-		$this->db->order_by('created','DESC');
+		$this->db->order_by('registerDate','DESC');
 		$query = $this->db->get('', $per_page, $page);
 		
 		return $query;
@@ -46,7 +46,7 @@ class member_model extends CI_Model
 	*/
 	public function delete_member($member_id)
 	{
-		if($this->db->delete('member', array('member_id' => $member_id)))
+		if($this->db->delete('jos_users', array('member_id' => $member_id)))
 		{
 			return TRUE;
 		}
@@ -67,7 +67,7 @@ class member_model extends CI_Model
 			);
 		$this->db->where('member_id', $member_id);
 		
-		if($this->db->update('member', $data))
+		if($this->db->update('jos_users', $data))
 		{
 			return TRUE;
 		}
@@ -88,7 +88,7 @@ class member_model extends CI_Model
 			);
 		$this->db->where('member_id', $member_id);
 		
-		if($this->db->update('member', $data))
+		if($this->db->update('jos_users', $data))
 		{
 			return TRUE;
 		}

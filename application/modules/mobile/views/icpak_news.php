@@ -39,6 +39,7 @@ $result = '<div class="page_content">
 
                                         $post_content = $row->fulltext;
                                          $date = date('jS M Y',strtotime($row->created));
+                                        $publish_up = date('jS M Y',strtotime($row->publish_up));
                                          $day = date('j',strtotime($row->created));
                                          $month = date('M',strtotime($row->created));
 
@@ -54,7 +55,8 @@ $result = '<div class="page_content">
                                                     </div>
                                                     <div class="post_title">
                                                     <!--<h2><a href="blog-single.html?id='.$id.'">'.strip_tags($mini_title).'</a></h2>-->
-                                                    <h2><a href="blog-single.html?id='.$id.'" onclick="get_news_description('.$id.')">'.strip_tags($mini_title).'</a></h2>
+                                                    <h3><a href="blog-single.html?id='.$id.'" onclick="get_news_description('.$id.')">'.strip_tags($mini_title).'</a></h3>
+                                                        Views : '.$hits.' Published : '.$publish_up.'
                                                     </div>
                                                 </div>
                                             </li>';
@@ -105,7 +107,7 @@ $result = '<div class="page_content">
 
                                         $post_content = $row_ecconect->fulltext;
                                          $date = date('jS M Y',strtotime($row_ecconect->created));
-
+                                          $publish_upe = date('jS M Y',strtotime($row_ecconect->publish_up));
                                          $day = date('j',strtotime($row_ecconect->created));
                                          $month = date('M',strtotime($row_ecconect->created));
 
@@ -120,7 +122,8 @@ $result = '<div class="page_content">
                                                         <span class="month">'.$month.'</span>
                                                     </div>
                                                     <div class="post_title">
-                                                    <h2><a href="blog-single.html?id='.$id.'" onclick="get_news_description('.$id.')">'. strip_tags($mini_title2).'</a></h2>
+                                                    <h3><a href="blog-single.html?id='.$id.'" onclick="get_news_description('.$id.')">'. strip_tags($mini_title2).'</a></h3>
+                                                        Views : '.$hits.' Published : '.$publish_upe.'
                                                     </div>
                                                 </div>
                                             </li>';

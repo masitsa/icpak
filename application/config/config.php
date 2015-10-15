@@ -14,8 +14,8 @@
 | path to your installation.
 |
 */
-//$config['base_url']	= 'http://localhost/icpak/';
-$config['base_url']	= 'http://sixthdimensions.com/icpak/';
+$config['base_url']	= 'http://localhost/icpak/';
+// $config['base_url']	= 'http://sixthdimensions.com/icpak/';
 
 /*
 |--------------------------------------------------------------------------

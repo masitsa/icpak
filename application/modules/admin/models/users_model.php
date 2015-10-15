@@ -386,5 +386,16 @@ class Users_model extends CI_Model
 			return FALSE;
 		}
 	}
+	public function get_active_admins()
+	{
+		//retrieve all events
+		$this->db->from('users');
+		$this->db->select('*');
+		$this->db->where('user_type = 2 AND activated = 1');
+		$query = $this->db->get();
+		
+		return $query;
+
+	}
 }
 ?>

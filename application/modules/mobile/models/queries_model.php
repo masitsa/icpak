@@ -133,6 +133,24 @@ class Queries_model extends CI_Model
 			return FALSE;
 		}
 	}
+	public function post_social()
+	{
+		$newdata = array(
+		   'member_id'			=>  $this->session->userdata('member_id'),
+		   'comment' => $this->input->post('member_text'),
+		   'created_on'			=> date('Y-m-d H:i:s')
+	   );
+
+		if($this->db->insert('social_forum', $newdata))
+		{
+			return TRUE;
+		}
+		else
+		{
+			return FALSE;
+		}
+	}
+
 	public function post_contact_us()
 	{
 		$newdata = array(
@@ -150,5 +168,104 @@ class Queries_model extends CI_Model
 		{
 			return FALSE;
 		}
+	}
+	public function get_latest_social_forum()
+	{
+		$this->db->where('social_forum_status = 0 AND jos_users.id = social_forum.member_id');
+		$this->db->order_by('social_forum.created_on', 'DESC');
+		// $this->db->limit(20);
+		$query = $this->db->get('social_forum,jos_users');
+		
+		return $query;
+	}
+
+	public function post_session_question()
+	{
+		$this->db->where('session_question = "'.$this->input->post('session_question').'" AND email = "'.$this->input->post('member_email').'"');
+		$query = $this->db->get('session_question');
+
+		if($query->num_rows() > 0)
+		{
+			return FALSE;
+		}
+		else
+		{
+			$this->db->where('event_session_code = "'.$this->input->post('session_code').'" AND event_session_status = 0');
+			$session_query = $this->db->get('event_session');
+			if($session_query->num_rows() > 0)
+			{
+
+				$newdata = array(
+				   'session_question'		=> $this->input->post('session_question'),
+				   'is_member'			=> $this->input->post('is_member'),
+				   'member_id'			=> $this->input->post('is_member'),
+				   'name'			=> $this->input->post('member_name'),
+				   'email'			=> $this->input->post('member_email'),
+				   'event_session_code'			=> $this->input->post('session_code'),
+				   'created_on'			=> date('Y-m-d H:i:s')
+			   	);
+
+				if($this->db->insert('session_question', $newdata))
+				{
+					return TRUE;
+				}
+				else
+				{
+					return FALSE;
+				}
+
+			}
+			else
+			{
+				return FALSE;
+			}
+
+			
+		}
+	}
+	public function post_feedback()
+	{
+		$this->db->where('feedback_text = "'.$this->input->post('feedback').'" AND email_address = "'.$this->input->post('email').'"');
+		$query = $this->db->get('feedback');
+
+		if($query->num_rows() > 0)
+		{
+			return FALSE;
+		}
+		else
+		{
+				$newdata = array(
+				   'feedback_text'		=> $this->input->post('feedback'),
+				   'email_address'			=> $this->input->post('email'),
+				   'name'			=> $this->input->post('name'),
+				   'created_on'			=> date('Y-m-d H:i:s')
+			   	);
+
+				if($this->db->insert('feedback', $newdata))
+				{
+					return TRUE;
+				}
+				else
+				{
+					return FALSE;
+				}
+		}
+	}
+	public function get_latest_session_question($session_code)
+	{
+		$this->db->where('is_visible = 1 AND event_session_code = "'.$session_code.'"');
+		$this->db->order_by('session_question_id', 'DESC');
+		$query = $this->db->get('session_question');
+		
+		return $query;
+	}
+	public function get_active_session()
+	{
+		$this->db->where('event_session_status = 0');
+		$this->db->order_by('event_session_id', 'ASC');
+		$query = $this->db->get('event_session');
+		
+		return $query;
+
 	}
 }

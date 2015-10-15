@@ -40,7 +40,7 @@ class Login_model extends CI_Model
                    'first_name'     => $result[0]->first_name,
                    'email'     => $result[0]->email,
                    'user_id'  => $result[0]->user_id,
-                   'user_type_id'  => 3
+                   'user_type'  => $result[0]->user_type
                );
 
 			$this->session->set_userdata($newdata);

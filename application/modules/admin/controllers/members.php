@@ -18,12 +18,12 @@ class Members extends admin {
 	*/
 	public function index() 
 	{
-		$where = 'member_id > 0';
-		$table = 'member';
+		$where = 'id > 0';
+		$table = 'jos_users';
 		//pagination
 		$this->load->library('pagination');
 		$config['base_url'] = base_url().'all-member';
-		$config['total_rows'] = $this->member_model->count_items($table, $where);
+		// $config['total_rows'] = $this->users_model->count_items($table, $where);
 		$config['uri_segment'] = 2;
 		$config['per_page'] = 20;
 		$config['num_links'] = 5;

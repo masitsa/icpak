@@ -1,10 +1,8 @@
 <?php
 	$airlines = 0;//$this->login_model->get_total_airlines();
 	$visitors = 0;//$this->login_model->get_total_visitors();
-    $members = $this->users_model->count_items('member', 'member_status = 0');
-    $new_questions = $this->users_model->count_items('meeting_comment', 'meeting_comment_status = 0');
-    $standards_query = $this->users_model->count_items('query', 'query_status = 0 AND query_item_id = 2');
-    $technical_query = $this->users_model->count_items('query', 'query_status = 0 AND query_item_id = 1');
+    $feedback = $this->users_model->count_items('feedback', 'feedback_id > 0');
+    $session_questions = $this->users_model->count_items('session_question', 'session_question_id > 0');
 ?>
         <!-- Page heading -->
         <div class="page-head">
@@ -51,7 +49,7 @@
                     <a href="#">
                         <i class="icon-tasks"></i>
                         <span>
-                             Event Questions <strong>(<?php echo $new_questions?>)</strong>
+                             Feedback <strong>(<?php echo $feedback?>)</strong>
                         </span>
                     </a>
                 </li>
@@ -59,23 +57,7 @@
                     <a href="#">
                         <i class="icon-tasks"></i>
                         <span>
-                             Technical questions <strong>(<?php echo $technical_query?>)</strong>
-                        </span>
-                    </a>
-                </li>
-                <li class="range">
-                    <a href="#">
-                        <i class="icon-tasks"></i>
-                        <span>
-                             Standards questions <strong>(<?php echo $standards_query?>)</strong>
-                        </span>
-                    </a>
-                </li>
-                <li class="range">
-                    <a href="#">
-                        <i class="icon-signal"></i>
-                        <span>
-                            New Members <strong>(<?php echo $members;?>)</strong>
+                             Session questions <strong>(<?php echo $session_questions;?>)</strong>
                         </span>
                     </a>
                 </li>

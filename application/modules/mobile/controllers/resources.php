@@ -1,6 +1,6 @@
 <?php   if ( ! defined('BASEPATH')) exit('No direct script access allowed');
 
-class News extends MX_Controller {
+class Resources extends MX_Controller {
 	
 	function __construct()
 	{
@@ -25,7 +25,7 @@ class News extends MX_Controller {
 			exit(0);
 		}
 		
-		$this->load->model('news_model');
+		$this->load->model('resources_model');
 		$this->load->model('email_model');
 	}
     
@@ -34,41 +34,31 @@ class News extends MX_Controller {
 	*	Default action is to go to the home page
 	*
 	*/
-	public function get_icpak_news() 
+	public function get_icpak_resources() 
 	{
-		$query = $this->news_model->get_news();
-		$econnect_query = $this->news_model->get_ecconect_news();
+		$query = $this->resources_model->get_resources();
 		
 		$v_data['query'] = $query;
-		$v_data['econnect_query'] = $econnect_query;
-		$data['total'] = 35;
 
 		$response['message'] = 'success';
-		$response['result'] = $this->load->view('icpak_news', $v_data, true);
+		$response['result'] = $this->load->view('icpak_resources', $v_data, true);
 
 		
 		echo json_encode($response);
 	}
 	
-	public function get_news_detail($id)
+	public function get_resources_detail($id)
 	{
-		$query = $this->news_model->get_news_detail($id);
+		$query = $this->resources_model->get_resources_detail($id);
 		
 		$v_data['query'] = $query;
 		$v_data['id'] = $id;
 		$response['message'] = 'success';
-		$response['result'] = $this->load->view('news_detail', $v_data, true);
+		$response['result'] = $this->load->view('resources_detail', $v_data, true);
 
 		
 		echo json_encode($response);
 
-	}
-	public function count_unread_news()
-	{
-		$data['unread_messages'] = $this->news_model->count_unread_news();
-		$data['news'] = $this->get_icpak_news();
-		
-		echo json_encode($data);
 	}
 	
 	

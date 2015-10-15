@@ -26,7 +26,15 @@ class Login extends MX_Controller {
 			if($this->login_model->validate_user())
 			{
 				//redirect('dashboard');
-				redirect('all-users');
+				if($this->session->userdata('user_type') == 1)
+				{
+					redirect('all-users');
+				}
+				else
+				{
+					redirect('my-sessions');
+				}
+				
 			}
 			
 			else

@@ -12,8 +12,6 @@ class Admin extends MX_Controller {
 		if($this->login_model->check_login())
 		{
 		}
-		
-		//user has not logged in
 		else
 		{
 			redirect('login-admin');

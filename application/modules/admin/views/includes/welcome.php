@@ -1,7 +1,7 @@
 <?php
 	// $active_flights = $this->login_model->get_active_flights();
 	// $total_payments = number_format($this->login_model->get_total_payments(), 0, '.', ',');
-    $active_members = $this->users_model->count_items('member', 'member_status = 1');
+    $active_members = $this->users_model->count_items('jos_users', 'activation IS NOT NULL ');
     $total_queries = $this->users_model->count_items('query', 'query_status = 1');
 
 ?>

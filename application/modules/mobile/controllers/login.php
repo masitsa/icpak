@@ -33,6 +33,7 @@ class Login extends MX_Controller {
 	
 	public function get_logged_in_member()
 	{
+		
 		$newdata = array(
                    'member_email'     		=> $this->session->userdata('member_email'),
                    'member_first_name'     	=> $this->session->userdata('member_first_name'),
@@ -45,19 +46,50 @@ class Login extends MX_Controller {
 		echo json_encode($newdata);
 	}
     
-	public function login_member($member_email = '', $member_password = '') 
-	{
-		$result = $this->login_model->validate_member($member_email, $member_password);
+	// public function login_member($member_email = '', $member_password = '') 
+	// {
+	// 	$result = $this->login_model->validate_member($member_email, $member_password);
 		
+	// 	if($result != FALSE)
+	// 	{
+	// 		//create user's login session
+	// 		$newdata = array(
+ //                   'member_login_status'    => TRUE,
+ //                   'member_email'     		=> $result[0]->member_email,
+ //                   'member_first_name'     	=> $result[0]->member_first_name,
+ //                   'member_id'  			=> $result[0]->member_id,
+ //                   'member_code'  			=> md5($result[0]->member_id)
+ //               );
+	// 		$this->session->set_userdata($newdata);
+			
+	// 		$response['message'] = 'success';
+	// 		$response['result'] = $newdata;
+	// 	}
+		
+	// 	else
+	// 	{
+	// 		$response['message'] = 'fail';
+	// 		$response['result'] = 'You have entered incorrect details. Please try again';
+	// 	}
+		
+	// 	//echo $_GET['callback'].'(' . json_encode($response) . ')';
+	// 	echo json_encode($response);
+	// }
+	
+	public function login_member($member_no = '', $member_password = '') 
+	{
+		$result = $this->login_model->validate_member($member_no, $member_password);
+	
 		if($result != FALSE)
 		{
 			//create user's login session
 			$newdata = array(
                    'member_login_status'    => TRUE,
-                   'member_email'     		=> $result[0]->member_email,
-                   'member_first_name'     		=> $result[0]->member_first_name,
-                   'member_id'  			=> $result[0]->member_id,
-                   'member_code'  			=> md5($result[0]->member_id)
+                   'member_email'     		=> $result[0]->email,
+                   'member_first_name'     	=> $result[0]->name,
+                   'member_id'  			=> $result[0]->id,
+                   'member_code'  			=> $result[0]->username,
+                   'member_no'  			=> $result[0]->username
                );
 			$this->session->set_userdata($newdata);
 			
@@ -74,7 +106,6 @@ class Login extends MX_Controller {
 		//echo $_GET['callback'].'(' . json_encode($response) . ')';
 		echo json_encode($response);
 	}
-	
 	public function dummy()
 	{
 		$return[0]['firstName'] = 'James';
@@ -90,19 +121,16 @@ class Login extends MX_Controller {
 	public function register_user()
 	{
 		$this->form_validation->set_error_delimiters('', '');
-		$this->form_validation->set_rules('gender_id', 'Gender', 'trim|required|xss_clean');
-		$this->form_validation->set_rules('phone', 'Phone', 'trim|required|xss_clean');
-		$this->form_validation->set_rules('company', 'Company', 'trim|required|xss_clean');
-		$this->form_validation->set_rules('password', 'Password', 'trim|required|xss_clean');
-		$this->form_validation->set_rules('email', 'Email', 'trim|valid_email|is_unique[member.member_email]|required|xss_clean');
-		$this->form_validation->set_rules('first_name', 'First name', 'trim|required|xss_clean');
-		$this->form_validation->set_rules('last_name', 'Last name', 'trim|required|xss_clean');
+		$this->form_validation->set_rules('email', 'Email', 'trim|valid_email|required|xss_clean');
 		
 		//if form conatins invalid data
 		if ($this->form_validation->run())
 		{
-			if($this->login_model->register_member_details())
+			$query = $this->login_model->register_member_details();
+			if($query->num_rows() > 0)
 			{
+				// the user exisits in the database
+
 				if($this->login_model->send_account_verification_email())
 				{
 					$response['message'] = 'success';
@@ -118,8 +146,26 @@ class Login extends MX_Controller {
 			
 			else
 			{
-				$response['message'] = 'fail';
-				$response['result'] = 'Unable to create account. Please try again';
+				if($this->login_model->update_record_from_db($this->input->post('email')))
+				{
+					if($this->login_model->send_account_verification_email())
+					{
+						$response['message'] = 'success';
+						$response['result'] = 'You have successfully created your account. Please check your email so that you can activate your account';
+					}
+					
+					else
+					{
+						$response['message'] = 'fail';
+						$response['result'] = 'Unable to send account verification email. Please contact us for details on how to activate your account';
+					}	
+				}
+				else
+				{
+					$response['message'] = 'fail';
+					$response['result'] = 'Unable to create account. Please try again';
+				}
+				
 			}
 		}
 		else
@@ -165,5 +211,48 @@ class Login extends MX_Controller {
 	public function success()
 	{
 		echo '<h3>Thank you for activating your account</h3><p>You can now log into our mobile application</p>';
+	}
+	public function post_cpd_query()
+	{
+		$this->form_validation->set_error_delimiters('', '');
+		$this->form_validation->set_rules('member_id', 'member_id', 'trim|required|xss_clean');
+		$this->form_validation->set_rules('question', 'question', 'trim|required|xss_clean');
+		
+		//if form conatins invalid data
+		if ($this->form_validation->run())
+		{
+			if($this->login_model->post_cpd_query())
+			{
+				
+					$response['message'] = 'success';
+					$response['result'] = 'Thank you for contact us, we will address your issue and get back to you shortly.';
+				
+			}
+			
+			else
+			{
+					$response['message'] = 'fail';
+					$response['result'] = 'Unable to create account. Please try again';
+			}
+		}
+		else
+		{
+			$validation_errors = validation_errors();
+			
+			//repopulate form data if validation errors are present
+			if(!empty($validation_errors))
+			{
+				$response['message'] = 'fail';
+			 	$response['result'] = $validation_errors;
+			}
+			
+			//populate form data on initial load of page
+			else
+			{
+				$response['message'] = 'fail';
+				$response['result'] = 'Ensure that you have entered all the values in the form provided';
+			}
+		}
+		echo json_encode($response);
 	}
 }

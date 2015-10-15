@@ -47,7 +47,7 @@ $result = '<div class="page_content">
 
 				            // $meeting_mini_string = (strlen($meeting_content) > 15) ? substr($meeting_content,0,50).'...' : $meeting_content;
 				       		$title = strip_tags($row->entryName,'<p><a>');
-                            $mini_title = (strlen($title) > 15) ? substr($title,0,50).'...' : $title;
+                            $mini_title = (strlen($title) > 30) ? substr($title,0,52).'...' : $title;
                             $result .='
                                 <li>
                                     <div class="post_entry">
@@ -56,7 +56,8 @@ $result = '<div class="page_content">
                                             <span class="month">'.$month.'</span>
                                         </div>
                                         <div class="post_title">
-                                       		<h2><a href="event-single.html?id='.$id.'" onclick="get_events_description('.$id.')">'.strip_tags($mini_title,'<p><a>').'</a></h2>
+                                       		<h3><a href="event-single.html?id='.$id.'" onclick="get_events_description('.$id.')">'.strip_tags($mini_title,'<p><a>').'</a></h3>
+                                       		'.$entryPlace.'. Category : '.$row->categoryName.' 
                                         </div>
                                     </div>
                                 </li>';

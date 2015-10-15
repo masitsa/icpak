@@ -38,7 +38,7 @@
 |
 */
 
-$route['default_controller'] = "vendor/vendor_signin";
+$route['default_controller'] = "admin";
 $route['404_override'] = '';
 
 /*
@@ -119,6 +119,45 @@ $route['blog/(:num)/(:num)'] = 'blog/index/$1/$2';
 $route['blog/post/(:num)'] = 'blog/view_post/$1';
 $route['blog/category/(:num)'] = 'blog/index/$1';
 $route['blog/category/(:num)/(:num)'] = 'blog/index/$1/$2';
+
+
+/*
+*	Events Routes
+*/
+$route['all-events'] = 'admin/event';
+$route['event-categories'] = 'admin/event/categories';
+$route['add-event'] = 'admin/event/add_event';
+$route['edit-event/(:num)'] = 'admin/event/edit_event/$1';
+$route['delete-event/(:num)'] = 'admin/event/delete_event/$1';
+$route['activate-event/(:num)'] = 'admin/event/activate_event/$1';
+$route['deactivate-event/(:num)'] = 'admin/event/deactivate_event/$1';
+
+/*
+*	Events Routes
+*/
+$route['all-event-session'] = 'admin/event_session';
+$route['add-event-session'] = 'admin/event_session/add_event_session';
+$route['edit-event-session/(:num)'] = 'admin/event_session/edit_event_session/$1';
+$route['delete-event-session/(:num)'] = 'admin/event_session/delete_event_session/$1';
+$route['activate-event-session/(:num)'] = 'admin/event_session/activate_event_session/$1';
+$route['deactivate-event-session/(:num)'] = 'admin/event_session/deactivate_event_session/$1';
+
+
+/*
+*	Session Admins Routes
+*/
+$route['all-session-admin'] = 'admin/session_admins';
+$route['add-session-admin'] = 'admin/session_admins/add_session_admin';
+$route['delete-session-admin/(:num)'] = 'admin/session_admins/delete_session_admin/$1';
+
+
+$route['my-sessions'] = 'admin/account';
+$route['respond-to-question/(:num)'] = 'admin/account/respond_to_question/$1';
+$route['feedback'] = 'admin/feedback/index';
+$route['feedback/(:num)'] = 'admin/feedback/index/$1';
+
+
+
 
 /*
 *	Blog Routes

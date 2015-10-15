@@ -18,15 +18,13 @@ if($query->num_rows() > 0)
 		 $result .='
 
 			 <div class="page_content">
-			        <h3>'.$event_name.'</h3>
+			        <h3>ICPAK Documentary</h3>
 			        <div class="videocontainer">
-			        <iframe width="100%" height="300" src="http://www.youtube.com/embed/'.$streamer_link.'" frameborder="0"></iframe>
+			       		 <iframe width="100%" height="300" src="http://www.youtube.com/embed/0wm9EzJVels" frameborder="0"></iframe>
 			        </div>
-			       <div class="contactform">
-			        <input type="button" data-popup=".popup-event-question" class="open-popup form_submit" name="submit" class="form_submit" id="submit" value="Ask a question" />
+			      
 
-			       </div>
-			 </div>
+			  </div>
 		  ';
 	}
 }

@@ -27,6 +27,35 @@
           return false;
          });
 
+   //Add to cart and redirect
+       $(document).on("submit","form#response_to_question",function(e)
+         {
+          e.preventDefault();
+          
+          var formData = new FormData(this);
+          
+           var session_question_id = $(this).attr('session_question_id');
+          $.ajax({
+           type:'POST',
+           url: $(this).attr('action'),
+           data:formData,
+           cache:false,
+           contentType: false,
+           processData: false,
+           dataType: 'json',
+           success:function(data){
+            window.alert(data.result);
+            parent.location ='<?php echo base_url(); ?>my-sessions';
+           },
+           error: function(xhr, status, error) {
+            alert("XMLHttpRequest=" + xhr.responseText + "\ntextStatus=" + status + "\nerrorThrown=" + error);
+           
+           }
+          });
+          return false;
+         });
+
+
 </script>
 <!-- Scroll to top -->
 <span class="totop"><a href="#"><i class="icon-chevron-up"></i></a></span> 

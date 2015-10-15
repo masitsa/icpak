@@ -17,7 +17,7 @@
 		}
 		
 		//if member exist display them
-		if ($member->num_rows() > 0)
+		if ($event->num_rows() > 0)
 		{
 			$count = $page;
 			
@@ -27,49 +27,39 @@
 				  <thead>
 					<tr>
 					  <th>#</th>
-					  <th>Member No.</th>
-					  <th>Name</th>
-					  <th>Email</th>
-					  <th>Phone number</th>					  
-					  <th>Last Login</th>
+					  <th>Event Name</th>
 					  <th>Status</th>
-					  <th colspan="5">Actions</th>
+					  <th colspan="2">Actions</th>
 					</tr>
 				  </thead>
 				  <tbody>
 			';
-			foreach ($member->result() as $row)
+			foreach ($event->result() as $row)
 			{
-				$member_no = $row->username;
-				$name = $row->name;
-				$email = $row->email;
-				$id = $row->id;
-				$lastvisitDate = $row->lastvisitDate;
-				$registerDate = $row->registerDate;
-				$usertype = $row->usertype;
+				$event_id = $row->event_id;
+				$event_name = $row->event_name;
+				$event_status = $row->event_status;
 				//create deactivated status display
-				if($row->block == 0)
+				if($row->event_status == 0)
 				{
 					$status = '<span class="label label-important">Deactivated</span>';
-					$button = '<a class="btn btn-info" href="'.site_url().'activate-member/'.$id.'" onclick="return confirm(\'Do you want to activate '.$name.'?\');">Activate</a>';
+					$button = '<a class="btn btn-info" href="'.site_url().'activate-event/'.$event_id.'" onclick="return confirm(\'Do you want to activate '.$event_name.'?\');">Activate</a>';
 				}
 				//create activated status display
-				else if($row->block == 1)
+				else if($row->event_status == 1)
 				{
 					$status = '<span class="label label-success">Active</span>';
-					$button = '<a class="btn btn-info" href="'.site_url().'deactivate-member/'.$id.'" onclick="return confirm(\'Do you want to deactivate '.$name.'?\');">Deactivate</a>';
+					$button = '<a class="btn btn-info" href="'.site_url().'deactivate-event/'.$event_id.'" onclick="return confirm(\'Do you want to deactivate '.$event_name.'?\');">Deactivate</a>';
 				}
+				$button2 = '<a class="btn btn-success" href="'.site_url().'edit-event/'.$event_id.'" >Edit Event</a>';
 				$count++;
 				$result .= 
 				'
 					<tr>
 						<td>'.$count.'</td>
-						<td>'.$member_no.'</td>
-						<td>'.$row->name.' </td>
-						<td>'.$email.'</td>
-						<td>'.date('jS M Y H:i a',strtotime($row->registerDate)).'</td>
-						<td>'.date('jS M Y H:i a',strtotime($row->lastvisitDate)).'</td>
+						<td>'.$event_name.'</td>
 						<td>'.$status.'</td>
+						<td>'.$button2.'</td>
 						<td>'.$button.'</td>
 					</tr> 
 				';
@@ -84,7 +74,7 @@
 		
 		else
 		{
-			$result .= "There are no member";
+			$result .= "There are no events";
 		}
 		
 		echo $result;

@@ -26,6 +26,7 @@ class Queries extends MX_Controller {
 		}
 		
 		$this->load->model('queries_model');
+		$this->load->model('login_model');
 		$this->load->model('email_model');
 		
 		$this->load->library('Mandrill', $this->config->item('mandrill_key'));
@@ -124,7 +125,48 @@ class Queries extends MX_Controller {
 		}
 		echo json_encode($response);
 	}
-
+	public function post_social_forum()
+	{
+		$this->form_validation->set_error_delimiters('', '');
+		$this->form_validation->set_rules('member_text', 'Content', 'trim|required|xss_clean');
+		
+		//if form conatins invalid data
+		if ($this->form_validation->run())
+		{
+			if($this->queries_model->post_social())
+			{
+				
+					$response['message'] = 'success';
+					$response['result'] = 'You have successfully submited your question.';
+				
+			}
+			
+			else
+			{
+					$response['message'] = 'fail';
+					$response['result'] = 'Unable to create account. Please try again';
+			}
+		}
+		else
+		{
+			$validation_errors = validation_errors();
+			
+			//repopulate form data if validation errors are present
+			if(!empty($validation_errors))
+			{
+				$response['message'] = 'fail';
+			 	$response['result'] = $validation_errors;
+			}
+			
+			//populate form data on initial load of page
+			else
+			{
+				$response['message'] = 'fail';
+				$response['result'] = 'Ensure that you have entered all the values in the form provided';
+			}
+		}
+		echo json_encode($response);
+	}
 	public function post_streaming_query()
 	{
 		$this->form_validation->set_error_delimiters('', '');
@@ -216,5 +258,135 @@ class Queries extends MX_Controller {
 		echo json_encode($response);
 
 	}
+	public function get_latest_social()
+	{
+		$social_forum = $this->queries_model->get_latest_social_forum();
+		
+		$v_data['social_forum'] = $social_forum;
+
+		$response['message'] = 'success';
+		$response['result'] = $this->load->view('icpak_social', $v_data, true);
+
+		
+		echo json_encode($response);
+	}
+
+	public function get_question_answer_form()
+	{
+		$active_sessions = $this->queries_model->get_active_session();
+		
+		$v_data['active_sessions'] = $active_sessions;
+
+
+		$response['message'] = 'success';
+		$response['result'] = $this->load->view('session_question', $v_data, true);
+
+		
+		echo json_encode($response);
+	}
+	public function post_session_question()
+	{
+		$this->form_validation->set_error_delimiters('', '');
+		$this->form_validation->set_rules('member_name', 'Member Name', 'trim|required|xss_clean');
+		$this->form_validation->set_rules('session_question', 'Session question', 'trim|required|xss_clean');
+		$this->form_validation->set_rules('member_email', 'Email', 'trim|required|xss_clean');
+		$this->form_validation->set_rules('session_code', 'Session Code', 'trim|required|xss_clean');
+		
+		//if form conatins invalid data
+		if ($this->form_validation->run())
+		{
+			if($this->queries_model->post_session_question())
+			{
+				
+					$response['message'] = 'success';
+					$response['result'] = 'Thank you for asking your question.';
+				
+			}
+			
+			else
+			{
+					$response['message'] = 'fail';
+					$response['result'] = 'Unable to create account. Please try again';
+			}
+		}
+		else
+		{
+			$validation_errors = validation_errors();
+			
+			//repopulate form data if validation errors are present
+			if(!empty($validation_errors))
+			{
+				$response['message'] = 'fail';
+			 	$response['result'] = $validation_errors;
+			}
+			
+			//populate form data on initial load of page
+			else
+			{
+				$response['message'] = 'fail';
+				$response['result'] = 'Ensure that you have entered all the values in the form provided';
+			}
+		}
+		echo json_encode($response);
+
+	}
+
+	public function post_feedback()
+	{
+		$this->form_validation->set_error_delimiters('', '');
+		$this->form_validation->set_rules('name', 'Name', 'trim|required|xss_clean');
+		$this->form_validation->set_rules('email', 'Email Address', 'trim|required|xss_clean');
+		$this->form_validation->set_rules('feedback', 'feedback', 'trim|required|xss_clean');
+		
+		//if form conatins invalid data
+		if ($this->form_validation->run())
+		{
+			if($this->queries_model->post_feedback())
+			{
+				
+					$response['message'] = 'success';
+					$response['result'] = 'Thank you for giving your feedback.';
+				
+			}
+			
+			else
+			{
+					$response['message'] = 'fail';
+					$response['result'] = 'Unable to send feedback. Please try again';
+			}
+		}
+		else
+		{
+			$validation_errors = validation_errors();
+			
+			//repopulate form data if validation errors are present
+			if(!empty($validation_errors))
+			{
+				$response['message'] = 'fail';
+			 	$response['result'] = $validation_errors;
+			}
+			
+			//populate form data on initial load of page
+			else
+			{
+				$response['message'] = 'fail';
+				$response['result'] = 'Ensure that you have entered all the values in the form provided';
+			}
+		}
+		echo json_encode($response);
+	}
+	public function get_session_questions()
+	{
+		$active_sessions = $this->queries_model->get_active_session();
+		
+		$v_data['active_sessions'] = $active_sessions;
+
+		$response['message'] = 'success';
+		$response['result'] = $this->load->view('visible_question', $v_data, true);
+
+		
+		echo json_encode($response);
+	}
+
 	
 }
